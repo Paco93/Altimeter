@@ -1,0 +1,36 @@
+﻿<Page
+    x:Class="Altimetro.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Altimetro"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d" >
+
+    <StackPanel Orientation="Vertical"  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*" />
+                <ColumnDefinition Width="2*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <TextBlock Text="Atmospheric Pressure (hPa)"  Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center"  Height="48" VerticalAlignment="Center"></TextBlock>
+            <TextBlock x:Name="CurrPression" Grid.Column="1" Grid.Row="0" HorizontalAlignment="stretch" Height="48"  Text="TextBlock" VerticalAlignment="Center"/>
+
+            <TextBlock Text="Calibration Value (hPa)"  Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center"  Height="48" VerticalAlignment="Center"></TextBlock>
+            <TextBlock x:Name="CalibrationValue" Grid.Column="1" Grid.Row="1" HorizontalAlignment="stretch" Height="48"  Text="TextBlock" VerticalAlignment="Center"/>
+
+            <TextBlock Text="Altitude (m)"  Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center"  Height="48" VerticalAlignment="Center"></TextBlock>
+            <TextBlock x:Name="Altit" Grid.Column="1" Grid.Row="2" HorizontalAlignment="stretch" Height="48"  Text="TextBlock" VerticalAlignment="Center"/>
+        </Grid>
+        <Button x:Name="Calibrate" Background="Orange" Content="Calibrate" FontSize="32" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="OnCalibrate"/>
+        <Button Content="Go to Config" Margin="40" Background="YellowGreen" HorizontalAlignment="Center" Click="GoToConfigButton_Click"/>
+
+        <TextBox x:Name="textBox" HorizontalAlignment="Center" Height="185" Margin="80" TextWrapping="Wrap" Text="By G. Gallinaro" BorderThickness="0" />
+    
+    </StackPanel>
+</Page>
