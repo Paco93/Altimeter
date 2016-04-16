@@ -8,7 +8,7 @@
     mc:Ignorable="d" >
 
     <StackPanel Orientation="Vertical"  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
-        <Grid >
+         <Grid >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="3*" />
                 <ColumnDefinition Width="2*" />
@@ -18,33 +18,23 @@
                 <RowDefinition />
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <TextBlock Text="Atmospheric Pressure (hPa)"  Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" Margin="10" Height="48" VerticalAlignment="Center"></TextBlock>
+            <TextBlock Text="Atm. Pressure (hPa)"  Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" Margin="10" Height="48" VerticalAlignment="Center"></TextBlock>
             <TextBlock x:Name="CurrPression" Grid.Column="1" Grid.Row="0" HorizontalAlignment="stretch" Height="48"  Text="TextBlock" VerticalAlignment="Center"/>
-
-            <TextBlock Text="Calibration Value (hPa)"  Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center"  Height="48" VerticalAlignment="Center"></TextBlock>
-            <TextBlock x:Name="CalibrationValue" Grid.Column="1" Grid.Row="1" HorizontalAlignment="stretch" Height="48"  Text="TextBlock" VerticalAlignment="Center"/>
 
             <TextBlock Text="Altitude (m)"  Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center"  Height="48" VerticalAlignment="Center"></TextBlock>
             <TextBlock x:Name="Altit" Grid.Column="1" Grid.Row="2" HorizontalAlignment="stretch" Height="48"  Text="TextBlock" VerticalAlignment="Center"/>
         </Grid>
-        <!--<Button x:Name="Calibrate" Background="Orange" Content="Calibrate" FontSize="32" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="OnCalibrate"/>
-        <Button Content="Go to Config" Margin="40" Background="YellowGreen" HorizontalAlignment="Center" Click="GoToConfigButton_Click"/>-->
+     
+        <TextBox x:Name="textBox" HorizontalAlignment="Center"  Margin="40,40,40,40" TextWrapping="Wrap" Text="By G. Gallinaro" BorderThickness="0" />
 
-        <TextBox x:Name="textBox" HorizontalAlignment="Center" Height="85" Margin="20" TextWrapping="Wrap" Text="By G. Gallinaro" BorderThickness="0" />
-        <!--<AppBarSeparator Background="Orange"/>
-        <AppBar >
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
-                <AppBarButton x:Name="Config" Margin="40,10" Icon="Accept" Label="  Set Temperature  "  Width="Auto" Background="Orange"  Click="GoToConfigButton_Click"/>
-                <AppBarButton x:Name="Calibrate"  Margin="20,10" Icon="Accept" Label="    Calibrate    "  Width="Auto" Background="Orange" Click="OnCalibrate"/>
-            </StackPanel>
-        </AppBar>-->
 
+        <TextBlock Name="ErrorMsg" Text="Barometer sensor not available"  Visibility="Collapsed"/>
     </StackPanel>
     <Page.BottomAppBar>
-        <AppBar Name="bottomAppBar">
+        <AppBar Name="bottomAppBar" >
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <AppBarButton x:Name="Config" Margin="10,10" Icon="Accept" Label="  Set Temperature  "  Width="Auto" Background="Orange"  Click="GoToConfigButton_Click"/>
-                <AppBarButton x:Name="Calibrate"  Margin="10,10" Icon="Accept" Label="    Calibrate    "  Width="Auto" Background="Orange" Click="OnCalibrate"/>
+                <AppBarButton x:Name="Config" Margin="10,10" Icon="Accept" Label="  Config  "  Width="Auto" Background="Orange"  Click="GoToConfigButton_Click"/>
+             
             </StackPanel>
         </AppBar>
     </Page.BottomAppBar>

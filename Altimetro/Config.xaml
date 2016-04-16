@@ -13,13 +13,26 @@
             <ColumnDefinition Width="2*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*" />
-            <RowDefinition Height="5*"/>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
-                <AppBar Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
-            <AppBarButton Icon="Home" Label="Home" Click="AppBar_Click"/>
+            <AppBar Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
+            <StackPanel HorizontalAlignment="Left">
+                <AppBarButton Icon="Home" Label="Home" Click="AppBar_Click"/>
+               
+            </StackPanel>
         </AppBar>
-        <TextBox Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" Margin="12,190,0,0" TextWrapping="Wrap" Text="Temperature (°K)" VerticalAlignment="Top" FontSize="16"/>
-        <TextBox x:Name="Temp" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Right"   Margin="12,190,0,0" TextWrapping="Wrap" Text="290" VerticalAlignment="Top" FontSize="16"/>
+        
+        <TextBox Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" Margin="12,10,0,0" TextWrapping="Wrap" Text="Temperature (°K)" VerticalAlignment="Top" FontSize="20"/>
+        <TextBox x:Name="Temp" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Right"   Margin="12,10,0,0" TextWrapping="Wrap" Text="290" VerticalAlignment="Top" FontSize="20"/>
+
+        <TextBlock Text="Calibration Press. (hPa)"  Grid.Column="0" Grid.Row="2" Margin="12,10,0,0" HorizontalAlignment="Left"  Height="48" VerticalAlignment="Center" FontSize="20"></TextBlock>
+        <TextBlock x:Name="CalibrationValue" Grid.Column="1" Grid.Row="2"  Height="48"  HorizontalAlignment="Right"   Margin="12,10,0,0"  Text="TextBlock" VerticalAlignment="Center" FontSize="20"/>
+        <Button x:Name="Calibrate" Grid.Column="0" Grid.Row="3"  Content=" Calibrate    " HorizontalAlignment="Center"   Width="Auto"  Background="Orange" Grid.ColumnSpan="2" Click="OnCalibrate"/>
+        
+        
+
     </Grid>
 </Page>
