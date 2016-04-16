@@ -33,16 +33,28 @@ namespace Altimetro
             this.InitializeComponent();
             barom = Barometer.GetDefault();
             Temp.TextChanged += Temp_TextChanged;
+            CalibAlt.TextChanged += CalibAlt_TextChanged;
+            CalibrationValue.TextChanged += CalibPressure_TextChanged;
             CalibrationValue.Text = MainPage.CalibPressure.ToString("F3");
         }
 
         private void Temp_TextChanged(object sender, TextChangedEventArgs e)
         {
             string t = Temp.Text;
-            MainPage.temp = Convert.ToDouble(t);
+            MainPage.temp = Convert.ToDouble(t) + 273.15;
         }
-        
 
+        private void CalibAlt_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string t = CalibAlt.Text;
+            MainPage.calibAlt = Convert.ToDouble(t);
+        }
+
+        private void CalibPressure_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string t = CalibrationValue.Text;
+            MainPage.CalibPressure = Convert.ToDouble(t);
+        }
         private void AppBar_Click(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(MainPage), null);
@@ -86,6 +98,7 @@ namespace Altimetro
                 await this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
                 {
                     Calibrate.Background = old;
+                    CalibrationValue.Text = MainPage.CalibPressure.ToString();
                     barom.ReportInterval = 1000;
                 });
             }

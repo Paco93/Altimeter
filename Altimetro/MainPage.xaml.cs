@@ -26,9 +26,10 @@ namespace Altimetro
     {
         Barometer barom;
       
-        static internal double CalibPressure;
+        static internal double CalibPressure;  //Pressure at Calibration Location (initially at sea level 
       
-        static internal double temp;
+        static internal double temp;  //temperature at the calibration point 
+        static internal double calibAlt; //Amtitude of calibaration location 
         public MainPage()
         {
             this.InitializeComponent();
@@ -49,6 +50,7 @@ namespace Altimetro
             BarometerReading red = barom.GetCurrentReading();
             CurrPression.Text = red.StationPressureInHectopascals.ToString("F3");
             CalibPressure = 1013.25; //Standard atmosphere @ sea level;
+            calibAlt = 0;
             barom.ReadingChanged += OnReadingChanged;
             temp = 288.15;//Standard temperature
         }
@@ -58,19 +60,19 @@ namespace Altimetro
            
             await this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
             {
-                CurrPression.Text = args.Reading.StationPressureInHectopascals.ToString("F3");
-                double rat = CalibPressure / args.Reading.StationPressureInHectopascals;
-                double r = Math.Log( rat);
+                double curPress = args.Reading.StationPressureInHectopascals;
+                CurrPression.Text = curPress.ToString("F3");
+                double rat = CalibPressure / curPress;
+ //               double r = Math.Log( rat);
                 const double R = 8.31432;
                 const double g = 9.80665;
                 const double M = 0.0289644;
-             //   double alt = R*  temp/ M * r / g;
+ //               double alt1 = R*  temp/ M * r / g;
 
                 //Alternative formula
                 const double Lb = 0.0065; //in °C/m   
-                double  alt = (Math.Exp((R * Lb / (g * M)) * r) - 1) * temp / Lb;
+                double  alt =  (Math.Pow(rat ,R * Lb / (g * M) ) - 1) * temp / Lb + calibAlt;
                 Altit.Text = alt.ToString("F1");
-
             });
         }
 

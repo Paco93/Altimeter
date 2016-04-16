@@ -17,6 +17,7 @@
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
             <AppBar Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
             <StackPanel HorizontalAlignment="Left">
@@ -25,12 +26,15 @@
             </StackPanel>
         </AppBar>
         
-        <TextBox Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" Margin="12,10,0,0" TextWrapping="Wrap" Text="Temperature (°K)" VerticalAlignment="Top" FontSize="20"/>
-        <TextBox x:Name="Temp" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Right"   Margin="12,10,0,0" TextWrapping="Wrap" Text="290" VerticalAlignment="Top" FontSize="20"/>
+        <TextBlock Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" Margin="12,10,10,10"  Text="Temperature (°C)" VerticalAlignment="Center" FontSize="20"/>
+        <TextBox x:Name="Temp" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Right"   Margin="12,10,10,10"  Text="15" VerticalAlignment="Center" FontSize="20"/>
 
-        <TextBlock Text="Calibration Press. (hPa)"  Grid.Column="0" Grid.Row="2" Margin="12,10,0,0" HorizontalAlignment="Left"  Height="48" VerticalAlignment="Center" FontSize="20"></TextBlock>
-        <TextBlock x:Name="CalibrationValue" Grid.Column="1" Grid.Row="2"  Height="48"  HorizontalAlignment="Right"   Margin="12,10,0,0"  Text="TextBlock" VerticalAlignment="Center" FontSize="20"/>
-        <Button x:Name="Calibrate" Grid.Column="0" Grid.Row="3"  Content=" Calibrate    " HorizontalAlignment="Center"   Width="Auto"  Background="Orange" Grid.ColumnSpan="2" Click="OnCalibrate"/>
+        <TextBlock Text="Calibration Loc. Alt. (m)"  Grid.Column="0" Grid.Row="2" Margin="12,10,10,10" HorizontalAlignment="Left"  Height="48" VerticalAlignment="Center" FontSize="20"></TextBlock>
+        <TextBox x:Name="CalibAlt" Grid.Column="1" Grid.Row="2"  Height="48"  HorizontalAlignment="Right"   Margin="12,10,10,10"  Text="0" VerticalAlignment="Center" FontSize="20"/>
+
+        <TextBlock Text="Calibration Press. (hPa)"  Grid.Column="0" Grid.Row="3" Margin="12,10,10,10" HorizontalAlignment="Left"  Height="48" VerticalAlignment="Center" FontSize="20"></TextBlock>
+        <TextBox x:Name="CalibrationValue" Grid.Column="1" Grid.Row="3"  Height="48"  HorizontalAlignment="Right"   Margin="12,10,10,10"  Text="1013.25" VerticalAlignment="Center" FontSize="20"/>
+        <Button x:Name="Calibrate" Grid.Column="0" Grid.Row="4"  Content=" Calibrate    " HorizontalAlignment="Center"   Width="Auto"  Background="Orange" Grid.ColumnSpan="2" Click="OnCalibrate"/>
         
         
 
