@@ -35,7 +35,10 @@ namespace Altimetro
             Temp.TextChanged += Temp_TextChanged;
             CalibAlt.TextChanged += CalibAlt_TextChanged;
             CalibrationValue.TextChanged += CalibPressure_TextChanged;
+            LapseRate.TextChanged += LapseRate_TextChanged;
             CalibrationValue.Text = MainPage.CalibPressure.ToString("F3");
+ //           Windows.UI.Core.SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
+
         }
 
         private void Temp_TextChanged(object sender, TextChangedEventArgs e)
@@ -55,6 +58,14 @@ namespace Altimetro
             string t = CalibrationValue.Text;
             MainPage.CalibPressure = Convert.ToDouble(t);
         }
+
+        private void LapseRate_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string t = LapseRate.Text;
+            MainPage.Lb = Convert.ToDouble(t)/1000;
+
+        }
+
         private void AppBar_Click(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(MainPage), null);
@@ -104,5 +115,16 @@ namespace Altimetro
             }
         }
 
+        private void OnBackRequested(object sender, Windows.UI.Core.BackRequestedEventArgs e)
+        {
+                e.Handled = true;
+                Windows.UI.Core.SystemNavigationManager.GetForCurrentView().BackRequested -= OnBackRequested;
+                this.Frame.Navigate(typeof(MainPage), null);
+        }
+        
+        protected override void  OnNavigatedTo(Windows.UI.Xaml.Navigation.NavigationEventArgs e)
+        {
+            Windows.UI.Core.SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
+        }
     }
 }

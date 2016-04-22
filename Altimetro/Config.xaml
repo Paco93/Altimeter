@@ -18,6 +18,7 @@
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
             <AppBar Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
             <StackPanel HorizontalAlignment="Left">
@@ -32,9 +33,12 @@
         <TextBlock Text="Calibration Loc. Alt. (m)"  Grid.Column="0" Grid.Row="2" Margin="12,10,10,10" HorizontalAlignment="Left"  Height="48" VerticalAlignment="Center" FontSize="20"></TextBlock>
         <TextBox x:Name="CalibAlt" Grid.Column="1" Grid.Row="2"  Height="48"  HorizontalAlignment="Right"   Margin="12,10,10,10"  Text="0" VerticalAlignment="Center" FontSize="20"/>
 
-        <TextBlock Text="Calibration Press. (hPa)"  Grid.Column="0" Grid.Row="3" Margin="12,10,10,10" HorizontalAlignment="Left"  Height="48" VerticalAlignment="Center" FontSize="20"></TextBlock>
-        <TextBox x:Name="CalibrationValue" Grid.Column="1" Grid.Row="3"  Height="48"  HorizontalAlignment="Right"   Margin="12,10,10,10"  Text="1013.25" VerticalAlignment="Center" FontSize="20"/>
-        <Button x:Name="Calibrate" Grid.Column="0" Grid.Row="4"  Content=" Calibrate    " HorizontalAlignment="Center"   Width="Auto"  Background="Orange" Grid.ColumnSpan="2" Click="OnCalibrate"/>
+        <TextBlock Text="Lapse Rate (°C/km)"  Grid.Column="0" Grid.Row="3" Margin="12,10,10,10" HorizontalAlignment="Left"  Height="48" VerticalAlignment="Center" FontSize="20"></TextBlock>
+        <TextBox x:Name="LapseRate" Grid.Column="1" Grid.Row="3"  Height="48"  HorizontalAlignment="Right"   Margin="12,10,10,10"  Text="6.5" VerticalAlignment="Center" FontSize="20"/>
+
+        <TextBlock Text="Calibration Press. (hPa)"  Grid.Column="0" Grid.Row="4" Margin="12,10,10,10" HorizontalAlignment="Left"  Height="48" VerticalAlignment="Center" FontSize="20"></TextBlock>
+        <TextBox x:Name="CalibrationValue" Grid.Column="1" Grid.Row="4"  Height="48"  HorizontalAlignment="Right"   Margin="12,10,10,10"  Text="1013.25" VerticalAlignment="Center" FontSize="20"/>
+        <Button x:Name="Calibrate" Grid.Column="0" Grid.Row="5"  Content=" Calibrate    " HorizontalAlignment="Center"   Width="Auto"  Background="Orange" Grid.ColumnSpan="2" Click="OnCalibrate"/>
         
         
 

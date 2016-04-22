@@ -30,6 +30,7 @@ namespace Altimetro
       
         static internal double temp;  //temperature at the calibration point 
         static internal double calibAlt; //Amtitude of calibaration location 
+        static internal double Lb ; //Lapse rate  °C/m   
         public MainPage()
         {
             this.InitializeComponent();
@@ -53,6 +54,7 @@ namespace Altimetro
             calibAlt = 0;
             barom.ReadingChanged += OnReadingChanged;
             temp = 288.15;//Standard temperature
+            Lb = 0.0065; //in °C/m   
         }
 
         async void OnReadingChanged(Barometer sender, BarometerReadingChangedEventArgs args)
@@ -70,7 +72,7 @@ namespace Altimetro
  //               double alt1 = R*  temp/ M * r / g;
 
                 //Alternative formula
-                const double Lb = 0.0065; //in °C/m   
+                
                 double  alt =  (Math.Pow(rat ,R * Lb / (g * M) ) - 1) * temp / Lb + calibAlt;
                 Altit.Text = alt.ToString("F1");
             });

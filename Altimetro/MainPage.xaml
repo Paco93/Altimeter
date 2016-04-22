@@ -31,11 +31,9 @@
         <TextBlock Name="ErrorMsg" Text="Barometer sensor not available"  Visibility="Collapsed"/>
     </StackPanel>
     <Page.BottomAppBar>
-        <AppBar Name="bottomAppBar" >
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <AppBarButton x:Name="Config" Margin="10,10" Icon="Accept" Label="  Config  "  Width="Auto" Background="Orange"  Click="GoToConfigButton_Click"/>
-             
-            </StackPanel>
+        <AppBar Name="bottomAppBar" IsSticky="True">
+            <AppBarButton x:Name="Config" Margin="10,10" HorizontalAlignment="Center" Icon="Accept" Label="  Config  "  Width="Auto" Background="Orange"  Click="GoToConfigButton_Click" />
+           
         </AppBar>
     </Page.BottomAppBar>
 </Page>
