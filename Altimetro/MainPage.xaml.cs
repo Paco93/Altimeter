@@ -16,6 +16,8 @@ using Windows.UI.Xaml.Navigation;
 using Windows.Devices.Sensors;
 // Il modello di elemento per la pagina vuota è documentato all'indirizzo http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x410
 
+
+using WinRTXamlToolkit.Controls.DataVisualization.Charting;
 namespace Altimetro
 {
 
@@ -25,12 +27,7 @@ namespace Altimetro
     public sealed partial class MainPage : Page
     {
         Barometer barom;
-      
-        static internal double CalibPressure;  //Pressure at Calibration Location (initially at sea level 
-      
-        static internal double temp;  //temperature at the calibration point 
-        static internal double calibAlt; //Amtitude of calibaration location 
-        static internal double Lb ; //Lapse rate  °C/m   
+
         public MainPage()
         {
             this.InitializeComponent();
@@ -50,11 +47,12 @@ namespace Altimetro
                 barom.ReportInterval = rep;
             BarometerReading red = barom.GetCurrentReading();
             CurrPression.Text = red.StationPressureInHectopascals.ToString("F3");
-            CalibPressure = 1013.25; //Standard atmosphere @ sea level;
-            calibAlt = 0;
+          
+            
             barom.ReadingChanged += OnReadingChanged;
-            temp = 288.15;//Standard temperature
-            Lb = 0.0065; //in °C/m   
+
+            ((ScatterSeries) LineChart.Series[0]).ItemsSource = App.items;
+           
         }
 
         async void OnReadingChanged(Barometer sender, BarometerReadingChangedEventArgs args)
@@ -64,7 +62,7 @@ namespace Altimetro
             {
                 double curPress = args.Reading.StationPressureInHectopascals;
                 CurrPression.Text = curPress.ToString("F3");
-                double rat = CalibPressure / curPress;
+                double rat = App.CalibPressure / curPress;
  //               double r = Math.Log( rat);
                 const double R = 8.31432;
                 const double g = 9.80665;
@@ -73,8 +71,20 @@ namespace Altimetro
 
                 //Alternative formula
                 
-                double  alt =  (Math.Pow(rat ,R * Lb / (g * M) ) - 1) * temp / Lb + calibAlt;
+                double  alt =  (Math.Pow(rat ,R * App.Lb / (g * M) ) - 1) * App.temp / App.Lb + App.calibAlt;
                 Altit.Text = alt.ToString("F1");
+                ((App)Application.Current).chartCounter++;
+                if ((((App)Application.Current).chartCounter % ((App)Application.Current).chartDecimation ) == 0)
+                {
+                    if (App.items.Count > 100)
+                    {
+                        ((App)Application.Current).chartDecimation = 30;
+                        App.items.RemoveAt(0);
+                    }
+                    App.items.Add(new ScatterValueItem() { Name = ((App)Application.Current).chartCounter, Value = alt });
+                }
+                //    myGrapg.Value = alt;
+        
             });
         }
 
@@ -85,4 +95,25 @@ namespace Altimetro
             this.Frame.Navigate(typeof(Config), null);
         }
     }
+    public class ScatterValueItem
+    {
+        private double _name;
+
+        public double Name
+        {
+            get { return _name; }
+            set { _name = value; }
+        }
+        private double _value;
+
+        public double Value
+        {
+            get { return _value; }
+            set { _value = value; }
+        }
+        public ScatterValueItem()
+        {
+        }
+    }
+
 }

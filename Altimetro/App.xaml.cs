@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using WinRTXamlToolkit.Controls.DataVisualization.Charting;
 
 namespace Altimetro
 {
@@ -22,6 +23,17 @@ namespace Altimetro
     /// </summary>
     sealed partial class App : Application
     {
+
+        static internal double CalibPressure;  //Pressure at Calibration Location (initially at sea level 
+
+        static internal double temp;  //temperature at the calibration point 
+        static internal double calibAlt; //Amtitude of calibaration location 
+        static internal double Lb; //Lapse rate  °C/m  
+        static internal System.Collections.ObjectModel.ObservableCollection<ScatterValueItem> items;
+
+        internal int chartDecimation = 5;
+        internal uint chartCounter;
+
         /// <summary>
         /// Inizializza l'oggetto Application singleton. Si tratta della prima riga del codice creato
         /// creato e, come tale, corrisponde all'equivalente logico di main() o WinMain().
@@ -30,6 +42,14 @@ namespace Altimetro
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            App.calibAlt = 0;
+            App.temp = 288.15;//Standard temperature
+            App.Lb = 0.0065; //in °C/m   
+
+            items = new System.Collections.ObjectModel.ObservableCollection<ScatterValueItem>();
+   //         items.Add(new ScatterValueItem() { Name = 0, Value = 0 });
+            chartCounter = 0;
+            CalibPressure = 1013.25; //Standard atmosphere @ sea level;
         }
 
         /// <summary>
@@ -58,7 +78,31 @@ namespace Altimetro
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
-                    //TODO: caricare lo stato dall'applicazione sospesa in precedenza
+                    var localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+                    object value = Convert.ToDouble(localSettings.Values["CalibrationPressure"]);
+                    if (value == null)
+                        CalibPressure = 1013.25;                        
+                    else
+                        CalibPressure = Convert.ToDouble(value);
+
+                    value = Convert.ToDouble(localSettings.Values["CalibrationAltitude"]);
+                    if (value == null)
+                        calibAlt = 0;
+                    else
+                        calibAlt = Convert.ToDouble(value);
+
+
+                     value = Convert.ToDouble(localSettings.Values["CalibrationTemperature"]);
+                    if (value == null)
+                        temp = 15;
+                    else
+                        temp = Convert.ToDouble(value);
+
+                    value = Convert.ToDouble(localSettings.Values["CalibrationLapse"]);
+                    if (value == null)
+                        Lb = 0.0065;
+                    else
+                        Lb = Convert.ToDouble(value);
                 }
 
                 // Posizionare il frame nella finestra corrente
@@ -100,6 +144,16 @@ namespace Altimetro
         {
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: salvare lo stato dell'applicazione e arrestare eventuali attività eseguite in background
+
+            var localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+
+            // Create a simple setting
+
+            localSettings.Values["CalibrationPressure"] = CalibPressure;
+            localSettings.Values["CalibrationAltitude"] = calibAlt;
+            localSettings.Values["CalibrationLapse"] = Lb;
+            localSettings.Values["CalibrationTemperature"] = temp;
+
             deferral.Complete();
         }
     }

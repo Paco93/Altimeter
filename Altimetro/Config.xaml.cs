@@ -28,6 +28,7 @@ namespace Altimetro
         static internal bool calibFlag = false;
         int calibCycles;
         Brush old;
+        double tmpCalibPress;
         public Config()
         {
             this.InitializeComponent();
@@ -36,33 +37,31 @@ namespace Altimetro
             CalibAlt.TextChanged += CalibAlt_TextChanged;
             CalibrationValue.TextChanged += CalibPressure_TextChanged;
             LapseRate.TextChanged += LapseRate_TextChanged;
-            CalibrationValue.Text = MainPage.CalibPressure.ToString("F3");
- //           Windows.UI.Core.SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
-
+            CalibrationValue.Text = App.CalibPressure.ToString("F3");
         }
 
         private void Temp_TextChanged(object sender, TextChangedEventArgs e)
         {
             string t = Temp.Text;
-            MainPage.temp = Convert.ToDouble(t) + 273.15;
+            App.temp = Convert.ToDouble(t) + 273.15;
         }
 
         private void CalibAlt_TextChanged(object sender, TextChangedEventArgs e)
         {
             string t = CalibAlt.Text;
-            MainPage.calibAlt = Convert.ToDouble(t);
+            App.calibAlt = Convert.ToDouble(t);
         }
 
         private void CalibPressure_TextChanged(object sender, TextChangedEventArgs e)
         {
             string t = CalibrationValue.Text;
-            MainPage.CalibPressure = Convert.ToDouble(t);
+            App.CalibPressure = Convert.ToDouble(t);
         }
 
         private void LapseRate_TextChanged(object sender, TextChangedEventArgs e)
         {
             string t = LapseRate.Text;
-            MainPage.Lb = Convert.ToDouble(t)/1000;
+            App.Lb = Convert.ToDouble(t)/1000;
 
         }
 
@@ -81,9 +80,9 @@ namespace Altimetro
             BarometerReading calibration;
             calibration = barom.GetCurrentReading();
 
-            MainPage.CalibPressure = calibration.StationPressureInHectopascals;
+            App.CalibPressure = calibration.StationPressureInHectopascals;
 
-            MainPage.CalibPressure = 0;
+            tmpCalibPress = 0;
             calibCycles = 0;
             barom.ReadingChanged += OnCalibration;
             old = Calibrate.Background;
@@ -99,18 +98,22 @@ namespace Altimetro
             //double r = Math.Log(args.Reading.StationPressureInHectopascals / calibration.StationPressureInHectopascals);
             //double temperat = 290;
             //double alt = 8.3144598 * temperat / 0.02897 * r / 9.81;
-            MainPage.CalibPressure += args.Reading.StationPressureInHectopascals;
+            tmpCalibPress += args.Reading.StationPressureInHectopascals;
             calibCycles++;
-            if (calibCycles == 100)
+            if (calibCycles == 50)
             {
                 barom.ReadingChanged -= OnCalibration;
-                MainPage.CalibPressure /= 100;
+                tmpCalibPress /= 50;
                 calibFlag = false;
                 await this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
                 {
                     Calibrate.Background = old;
-                    CalibrationValue.Text = MainPage.CalibPressure.ToString();
+                    App.CalibPressure = tmpCalibPress;
+                    CalibrationValue.Text = tmpCalibPress.ToString();
                     barom.ReportInterval = 1000;
+                    App.items.Clear();
+                    ((App)Application.Current).chartDecimation = 5;
+                    ((App)Application.Current).chartCounter = 0;
                 });
             }
         }

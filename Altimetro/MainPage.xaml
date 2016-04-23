@@ -5,6 +5,12 @@
     xmlns:local="using:Altimetro"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    
+    xmlns:controls="using:WinRTXamlToolkit.Controls"
+    
+    xmlns:Chart="using:WinRTXamlToolkit.Controls.DataVisualization.Charting"
+   
+    
     mc:Ignorable="d" >
 
     <StackPanel Orientation="Vertical"  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
@@ -17,12 +23,43 @@
                 <RowDefinition />
                 <RowDefinition />
                 <RowDefinition />
+                <RowDefinition />
             </Grid.RowDefinitions>
             <TextBlock Text="Atm. Pressure (hPa)"  Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" Margin="10" Height="48" VerticalAlignment="Center"></TextBlock>
             <TextBlock x:Name="CurrPression" Grid.Column="1" Grid.Row="0" HorizontalAlignment="stretch" Height="48"  Text="TextBlock" VerticalAlignment="Center"/>
 
             <TextBlock Text="Altitude (m)"  Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center"  Height="48" VerticalAlignment="Center"></TextBlock>
             <TextBlock x:Name="Altit" Grid.Column="1" Grid.Row="2" HorizontalAlignment="stretch" Height="48"  Text="TextBlock" VerticalAlignment="Center"/>
+            <!--<controls:Gauge x:Name="myGrapg" Value="100" 
+                Unit="Altitude (x 100m)"
+                ScaleTickBrush="Red"
+                TickBrush="Green"
+                ValueBrush="Aqua" UnitBrush="Aqua"
+                ScaleWidth="20" CanDrag="True"  Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2">
+
+                <controls:Gauge.NeedleBrush>
+                    <LinearGradientBrush EndPoint="1,0">
+                        <GradientStop Color="Black" />
+                        <GradientStop Color="Blue"
+                          Offset=".5" />
+                        <GradientStop Color="Black"
+                          Offset="3" />
+                    </LinearGradientBrush>
+                </controls:Gauge.NeedleBrush>
+                <controls:Gauge.TrailBrush>
+                    <SolidColorBrush Color="Green"
+                         Opacity="25" />
+                </controls:Gauge.TrailBrush>
+            </controls:Gauge>-->
+
+            <Chart:Chart x:Name="LineChart"  HorizontalAlignment="Left" Title="Altitude (m)" Margin="2,0,0,0" VerticalAlignment="Top" Width="318" Height="190"
+                          Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2">
+                <Chart:ScatterSeries
+        	       
+        		IndependentValueBinding="{Binding Name}"
+        		DependentValueBinding="{Binding Value}" IsSelectionEnabled="True" />
+            </Chart:Chart>
+
         </Grid>
      
         <TextBox x:Name="textBox" HorizontalAlignment="Center"  Margin="40,40,40,40" TextWrapping="Wrap" Text="By G. Gallinaro" BorderThickness="0" />
