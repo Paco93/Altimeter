@@ -27,20 +27,29 @@
             </StackPanel>
         </AppBar>
         
-        <TextBlock Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" Margin="12,10,10,10"  Text="Temperature (°C)" VerticalAlignment="Center" FontSize="20"/>
-        <TextBox x:Name="Temp" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Right"   Margin="12,10,10,10"  Text="15" VerticalAlignment="Center" FontSize="20"/>
+        <TextBlock Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" Margin="12,10,10,10"  Text="Temperature (°C)" VerticalAlignment="Center" FontSize="20"/>
+        <TextBox x:Name="Temp" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Right"   Margin="12,10,10,10"  Text="15" VerticalAlignment="Center" FontSize="20" LostFocus="Temp_LostFocus"/>
 
-        <TextBlock Text="Calibration Loc. Alt. (m)"  Grid.Column="0" Grid.Row="2" Margin="12,10,10,10" HorizontalAlignment="Left"  Height="48" VerticalAlignment="Center" FontSize="20"></TextBlock>
-        <TextBox x:Name="CalibAlt" Grid.Column="1" Grid.Row="2"  Height="48"  HorizontalAlignment="Right"   Margin="12,10,10,10"  Text="0" VerticalAlignment="Center" FontSize="20"/>
+        <TextBlock Text="Calibration Loc. Alt. (m)"  Grid.Column="0" Grid.Row="1" Margin="12,10,10,10" HorizontalAlignment="Left"  Height="48" VerticalAlignment="Center" FontSize="20"></TextBlock>
+        <TextBox x:Name="CalibAlt" Grid.Column="1" Grid.Row="1"  Height="48"  HorizontalAlignment="Right"   Margin="12,10,10,10"  Text="0" VerticalAlignment="Center" FontSize="20" LostFocus="CalibAlt_LostFocus"/>
 
-        <TextBlock Text="Lapse Rate (°C/km)"  Grid.Column="0" Grid.Row="3" Margin="12,10,10,10" HorizontalAlignment="Left"  Height="48" VerticalAlignment="Center" FontSize="20"></TextBlock>
-        <TextBox x:Name="LapseRate" Grid.Column="1" Grid.Row="3"  Height="48"  HorizontalAlignment="Right"   Margin="12,10,10,10"  Text="6.5" VerticalAlignment="Center" FontSize="20"/>
+        <TextBlock Text="Lapse Rate (°C/km)"  Grid.Column="0" Grid.Row="2" Margin="12,10,10,10" HorizontalAlignment="Left"  Height="48" VerticalAlignment="Center" FontSize="20"></TextBlock>
+        <TextBox x:Name="LapseRate" Grid.Column="1" Grid.Row="2"  Height="48"  HorizontalAlignment="Right"   Margin="12,10,10,10"  Text="6.5" VerticalAlignment="Center" FontSize="20" LostFocus="LapseRate_LostFocus"/>
 
-        <TextBlock Text="Calibration Press. (hPa)"  Grid.Column="0" Grid.Row="4" Margin="12,10,10,10" HorizontalAlignment="Left"  Height="48" VerticalAlignment="Center" FontSize="20"></TextBlock>
-        <TextBox x:Name="CalibrationValue" Grid.Column="1" Grid.Row="4"  Height="48"  HorizontalAlignment="Right"   Margin="12,10,10,10"  Text="1013.25" VerticalAlignment="Center" FontSize="20"/>
-        <Button x:Name="Calibrate" Grid.Column="0" Grid.Row="5"  Content=" Calibrate    " HorizontalAlignment="Center"   Width="Auto"  Background="Orange" Grid.ColumnSpan="2" Click="OnCalibrate"/>
+        <TextBlock Text="Calibration Press. (hPa)"  Grid.Column="0" Grid.Row="3" Margin="12,10,10,10" HorizontalAlignment="Left"  Height="48" VerticalAlignment="Center" FontSize="20"></TextBlock>
+        <TextBox x:Name="CalibrationValue" Grid.Column="1" Grid.Row="3"  Height="48"  HorizontalAlignment="Right"   Margin="12,10,10,10"  Text="1013.25" VerticalAlignment="Center" FontSize="20" LostFocus="CalibrationValue_LostFocus"/>
         
+        <TextBlock Text="Sampling (s)"  Grid.Column="0" Grid.Row="4" Margin="12,10,10,10" HorizontalAlignment="Left"  Height="48" VerticalAlignment="Center" FontSize="20"></TextBlock>
+        <TextBox x:Name="SamplingValue" Grid.Column="1" Grid.Row="4"  Height="48"  HorizontalAlignment="Right"   Margin="12,10,10,10"  Text="5" VerticalAlignment="Center" FontSize="20" LostFocus="SamplingValue_LostFocus"/>
+
+        <Button x:Name="Calibrate" Grid.Column="0" Grid.Row="5"  Content=" Calibrate    " HorizontalAlignment="Center"   Width="Auto"  Background="Orange" Grid.ColumnSpan="1" Click="OnCalibrate"/>
+        <StackPanel Grid.Column="1" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Button x:Name="RestoreDefault" Content="R" HorizontalAlignment="Center" FontSize="20"  Width="Auto"  Background="Red" Grid.ColumnSpan="1" Click="OnReset"/>
+            <TextBlock Text="Reset Value"></TextBlock>
+        </StackPanel>
         
+
+
 
     </Grid>
 </Page>

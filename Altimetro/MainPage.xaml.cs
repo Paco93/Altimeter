@@ -74,11 +74,10 @@ namespace Altimetro
                 double  alt =  (Math.Pow(rat ,R * App.Lb / (g * M) ) - 1) * App.temp / App.Lb + App.calibAlt;
                 Altit.Text = alt.ToString("F1");
                 ((App)Application.Current).chartCounter++;
-                if ((((App)Application.Current).chartCounter % ((App)Application.Current).chartDecimation ) == 0)
+                if ((((App)Application.Current).chartCounter % App.chartDecimation ) == 0)
                 {
                     if (App.items.Count > 100)
                     {
-                        ((App)Application.Current).chartDecimation = 30;
                         App.items.RemoveAt(0);
                     }
                     App.items.Add(new ScatterValueItem() { Name = ((App)Application.Current).chartCounter, Value = alt });

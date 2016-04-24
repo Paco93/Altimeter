@@ -31,7 +31,7 @@ namespace Altimetro
         static internal double Lb; //Lapse rate  °C/m  
         static internal System.Collections.ObjectModel.ObservableCollection<ScatterValueItem> items;
 
-        internal int chartDecimation = 5;
+        static internal int chartDecimation = 5;
         internal uint chartCounter;
 
         /// <summary>
