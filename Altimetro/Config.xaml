@@ -18,15 +18,9 @@
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
-            <RowDefinition />
+            <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
-            <AppBar Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
-            <StackPanel HorizontalAlignment="Left">
-                <AppBarButton Icon="Home" Label="Home" Click="AppBar_Click"/>
-               
-            </StackPanel>
-        </AppBar>
-        
+
         <TextBlock Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" Margin="12,10,10,10"  Text="Temperature (°C)" VerticalAlignment="Center" FontSize="20"/>
         <TextBox x:Name="Temp" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Right"   Margin="12,10,10,10"  Text="15" VerticalAlignment="Center" FontSize="20" LostFocus="Temp_LostFocus"/>
 
@@ -41,15 +35,12 @@
         
         <TextBlock Text="Sampling (s)"  Grid.Column="0" Grid.Row="4" Margin="12,10,10,10" HorizontalAlignment="Left"  Height="48" VerticalAlignment="Center" FontSize="20"></TextBlock>
         <TextBox x:Name="SamplingValue" Grid.Column="1" Grid.Row="4"  Height="48"  HorizontalAlignment="Right"   Margin="12,10,10,10"  Text="5" VerticalAlignment="Center" FontSize="20" LostFocus="SamplingValue_LostFocus"/>
-
-        <Button x:Name="Calibrate" Grid.Column="0" Grid.Row="5"  Content=" Calibrate    " HorizontalAlignment="Center"   Width="Auto"  Background="Orange" Grid.ColumnSpan="1" Click="OnCalibrate"/>
-        <StackPanel Grid.Column="1" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Button x:Name="RestoreDefault" Content="R" HorizontalAlignment="Center" FontSize="20"  Width="Auto"  Background="Red" Grid.ColumnSpan="1" Click="OnReset"/>
-            <TextBlock Text="Reset Value"></TextBlock>
-        </StackPanel>
-        
-
-
-
     </Grid>
+    <Page.BottomAppBar>
+        <CommandBar Name="bottomAppBar" >
+            <AppBarButton  Icon="Back" Label="Go Home"  Width="Auto" Margin="50,0,50,0"  Click="AppBar_Click" />
+            <AppBarButton Name="Calibrate" Icon="Manage" Label="Calibrate"  Width="Auto" Margin="50,0,50,0"  Click="OnCalibrate" />
+            <AppBarButton  Icon="Redo" Label="Reset"  Width="Auto" Margin="50,0,50,0"  Click="OnReset" />
+        </CommandBar>
+    </Page.BottomAppBar>
 </Page>

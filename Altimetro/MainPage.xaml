@@ -14,7 +14,7 @@
     mc:Ignorable="d" >
 
     <StackPanel Orientation="Vertical"  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
-         <Grid >
+        <Grid >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="3*" />
                 <ColumnDefinition Width="2*" />
@@ -52,25 +52,28 @@
                 </controls:Gauge.TrailBrush>
             </controls:Gauge>-->
 
-            <Chart:Chart x:Name="LineChart"  HorizontalAlignment="Left" Title="Altitude (m)" Margin="2,0,0,0" VerticalAlignment="Top" Width="318" Height="190"
-                          Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2">
-                <Chart:ScatterSeries
-        	       
-        		IndependentValueBinding="{Binding Name}"
-        		DependentValueBinding="{Binding Value}" IsSelectionEnabled="True" />
+            <Chart:Chart x:Name="LineChart"  HorizontalAlignment="Left" Title="Altitude (m)" Margin="2,0,0,0" VerticalAlignment="Top"  Width="350" Height="190"
+                          Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" >
+                <Chart:Chart.LegendStyle>
+                    <Style TargetType="FrameworkElement">
+                        <Setter Property="Width" Value="0" />
+                    </Style>
+                </Chart:Chart.LegendStyle>
+                <Chart:ScatterSeries IndependentValueBinding="{Binding Name}" DependentValueBinding="{Binding Value}" IsSelectionEnabled="True"  >
+
+                </Chart:ScatterSeries> 
             </Chart:Chart>
 
         </Grid>
-     
-        <TextBox x:Name="textBox" HorizontalAlignment="Center"  Margin="40,40,40,40" TextWrapping="Wrap" Text="By G. Gallinaro" BorderThickness="0" />
-
-
         <TextBlock Name="ErrorMsg" Text="Barometer sensor not available"  Visibility="Collapsed"/>
     </StackPanel>
     <Page.BottomAppBar>
-        <AppBar Name="bottomAppBar" IsSticky="True">
-            <AppBarButton x:Name="Config" Margin="10,10" HorizontalAlignment="Center" Icon="Accept" Label="  Config  "  Width="Auto" Background="Orange"  Click="GoToConfigButton_Click" />
-           
-        </AppBar>
+        <CommandBar Name="bottomAppBar" >
+ 
+            <AppBarButton x:Name="Config"  Icon="Setting" Label="Config"  Margin="0,0"  Width="Auto"  Click="GoToConfigButton_Click" />
+            <AppBarButton  Icon="Help" Label="About"  Width="Auto" Margin="50,0,50,0"  Click="GoToHelp_Click" />
+
+
+        </CommandBar>
     </Page.BottomAppBar>
 </Page>

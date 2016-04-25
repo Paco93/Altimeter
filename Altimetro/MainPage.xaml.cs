@@ -93,6 +93,12 @@ namespace Altimetro
         {
             this.Frame.Navigate(typeof(Config), null);
         }
+
+        private void GoToHelp_Click(object sender, RoutedEventArgs e)
+        {
+
+            this.Frame.Navigate(typeof(Help), null);
+        }
     }
     public class ScatterValueItem
     {
