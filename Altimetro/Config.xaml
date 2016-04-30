@@ -30,7 +30,7 @@
         <TextBlock Text="Lapse Rate (°C/km)"  Grid.Column="0" Grid.Row="2" Margin="12,10,10,10" HorizontalAlignment="Left"  Height="48" VerticalAlignment="Center" FontSize="20"></TextBlock>
         <TextBox x:Name="LapseRate" Grid.Column="1" Grid.Row="2"  Height="48"  HorizontalAlignment="Right"   Margin="12,10,10,10"  Text="6.5" VerticalAlignment="Center" FontSize="20" LostFocus="LapseRate_LostFocus"/>
 
-        <TextBlock Text="Calibration Press. (hPa)"  Grid.Column="0" Grid.Row="3" Margin="12,10,10,10" HorizontalAlignment="Left"  Height="48" VerticalAlignment="Center" FontSize="20"></TextBlock>
+        <TextBlock Text="Calibration Press.(hPa)"  Grid.Column="0" Grid.Row="3" Margin="12,10,10,10" HorizontalAlignment="Left"  Height="48" VerticalAlignment="Center" FontSize="20"></TextBlock>
         <TextBox x:Name="CalibrationValue" Grid.Column="1" Grid.Row="3"  Height="48"  HorizontalAlignment="Right"   Margin="12,10,10,10"  Text="1013.25" VerticalAlignment="Center" FontSize="20" LostFocus="CalibrationValue_LostFocus"/>
         
         <TextBlock Text="Sampling (s)"  Grid.Column="0" Grid.Row="4" Margin="12,10,10,10" HorizontalAlignment="Left"  Height="48" VerticalAlignment="Center" FontSize="20"></TextBlock>
@@ -38,9 +38,9 @@
     </Grid>
     <Page.BottomAppBar>
         <CommandBar Name="bottomAppBar" >
-            <AppBarButton  Icon="Back" Label="Go Home"  Width="Auto" Margin="50,0,50,0"  Click="AppBar_Click" />
-            <AppBarButton Name="Calibrate" Icon="Manage" Label="Calibrate"  Width="Auto" Margin="50,0,50,0"  Click="OnCalibrate" />
-            <AppBarButton  Icon="Redo" Label="Reset"  Width="Auto" Margin="50,0,50,0"  Click="OnReset" />
+            <AppBarButton  Icon="Back" Label="Go Home"  Width="Auto" Margin="50,0,50,0"  Click="AppBar_Click" ToolTipService.ToolTip="Go to Main Page"/>
+            <AppBarButton Name="Calibrate" Icon="Manage" Label="Calibrate"  Width="Auto" Margin="50,0,50,0"  Click="OnCalibrate" ToolTipService.ToolTip="Set calibration pressure to current pressure"/>
+            <AppBarButton  Icon="Redo" Label="Reset"  Width="Auto" Margin="50,0,50,0"  Click="OnReset" ToolTipService.ToolTip="Reload default values" />
         </CommandBar>
     </Page.BottomAppBar>
 </Page>

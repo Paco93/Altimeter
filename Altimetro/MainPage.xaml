@@ -65,13 +65,14 @@
             </Chart:Chart>
 
         </Grid>
-        <TextBlock Name="ErrorMsg" Text="Barometer sensor not available"  Visibility="Collapsed"/>
+        <!--<TextBlock Name="ErrorMsg" Text="Barometer sensor not available"  Visibility="Collapsed"/>-->
     </StackPanel>
     <Page.BottomAppBar>
         <CommandBar Name="bottomAppBar" >
- 
-            <AppBarButton x:Name="Config"  Icon="Setting" Label="Config"  Margin="0,0"  Width="Auto"  Click="GoToConfigButton_Click" />
-            <AppBarButton  Icon="Help" Label="About"  Width="Auto" Margin="50,0,50,0"  Click="GoToHelp_Click" />
+
+            <AppBarButton x:Name="Config"  Icon="Setting" Label="Settings"  Margin="0,0,10,0"  Width="Auto"  Click="GoToConfigButton_Click" ToolTipService.ToolTip="Go to calibration page" />
+            <AppBarButton  Icon="Folder" Label="About"  Width="Auto" Margin="10,0,20,0"  Click="GoTo_Files" />
+            <AppBarButton  Icon="Help" Label="About"  Width="Auto" Margin="10,0,40,0"  Click="GoToHelp_Click" />
 
 
         </CommandBar>

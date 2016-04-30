@@ -1,0 +1,24 @@
+﻿<local:SharePage
+    x:Class="Altimetro.FilePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Altimetro"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+   >
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+        <ListView  SelectionChanged="Files_SelectionChanged" Name="llsFiles" Background="Red" ItemsSource="{Binding Path=FilesList , Mode=OneWay}">
+
+           
+        </ListView>
+    </Grid>
+    <Page.BottomAppBar>
+        <CommandBar Name="bottomAppBar" >
+            <AppBarButton  Icon="Back" Label="Go Home"  Width="Auto"  Margin="50,0,120,0"  Click="AppBar_Click" ToolTipService.ToolTip="Go to Main Page"/>
+            <AppBarButton  Icon="Send" Label="Send"  Width="Auto"  Margin="50,0,120,0"  Click="ShowUIButton_Click" ToolTipService.ToolTip="Open with Excel" AutomationProperties.AutomationId="ShareButton"/>
+        </CommandBar>
+    </Page.BottomAppBar>
+</local:SharePage>

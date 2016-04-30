@@ -123,6 +123,11 @@ namespace Altimetro
             }
         }
 
+        public string FolderName
+        {
+            get { return Package.Current.Id.Name; }
+        }
+
         /// <summary>
         /// Chiamato quando la navigazione a una determinata pagina ha esito negativo
         /// </summary>
