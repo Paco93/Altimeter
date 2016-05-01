@@ -97,39 +97,11 @@ namespace Altimetro
             }
         }
 
-        //public async void GetFilesList()
-        //{
-        //    FileOpenPicker filePicker = new FileOpenPicker
-        //    {
-        //        ViewMode = PickerViewMode.List,
-        //        SuggestedStartLocation = PickerLocationId.DocumentsLibrary,
-        //        FileTypeFilter = { "*" }
-        //    };
-
-        //    IReadOnlyList<StorageFile> pickedFiles = await filePicker.PickMultipleFilesAsync();
-
-        //    if (pickedFiles.Count > 0)
-        //    {
-        //        this.selectedStorageItems = pickedFiles;
-
-        //        // Display the file names in the UI.
-        //        string selectedFiles = String.Empty;
-        //        for (int index = 0; index < pickedFiles.Count; index++)
-        //        {
-        //            selectedFiles += pickedFiles[index].Name;
-
-        //            if (index != (pickedFiles.Count - 1))
-        //            {
-        //                selectedFiles += ", ";
-        //            }
-        //        }
-        //    }
-        //}
-
+    
         bool GetShareContent(Windows.ApplicationModel.DataTransfer.DataRequest request)
         {
             bool succeeded = false;
-            if (selectedStorageItems != null)
+            if (selectedStorageItems != null && selectedStorageItems.Count > 0)
             {
                 Windows.ApplicationModel.DataTransfer.DataPackage requestData = request.Data;
                 requestData.Properties.Title = "File";
@@ -166,16 +138,18 @@ namespace Altimetro
 
         private async void ViewButton_Click(object sender, RoutedEventArgs e)
         {
-            StorageFile file = selectedStorageItems.ElementAt(0);
+            StorageFile file = null;
+            if (selectedStorageItems!=null && selectedStorageItems.Count > 0)
+               file = selectedStorageItems.ElementAt(0);
             if (file != null)
             {
                 try
                 {
                     string fileContent = await FileIO.ReadTextAsync(file);
-
+                    string fileView = fileContent + App.fileBuffer;
                     await this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
                     {
-                        FileContent.Text = fileContent;
+                        FileContent.Text =fileView ;
                     });
 
 
@@ -191,17 +165,21 @@ namespace Altimetro
 
         private async void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            StorageFile file = selectedStorageItems.ElementAt(0);
+            StorageFile file = null;
+            if (selectedStorageItems != null && selectedStorageItems.Count > 0)
+                file = selectedStorageItems.ElementAt(0);
             if (file != null)
             {
                 if (file.Path == App.file.Path)
                 {
-                    await FileIO.WriteTextAsync(App.file, ""); //actually empty the file
-                    string fileContent = await FileIO.ReadTextAsync(file);
-
-                    await this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                    await this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
                     {
-                        FileContent.Text = fileContent;
+                        bool tmp = App.save2File;
+                        App.save2File = false;
+                        await FileIO.WriteTextAsync(App.file, ""); //actually empty the file
+                        FileContent.Text = "";
+                        App.fileBuffer.Clear();
+                        App.save2File = tmp;
                     });
                     return;
                 }

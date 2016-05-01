@@ -32,6 +32,7 @@ namespace Altimetro
         Barometer barom;
  
         public static MainPage Current;
+
         public MainPage()
         {
             this.InitializeComponent();
@@ -44,28 +45,10 @@ namespace Altimetro
         async void OnMainPageLoaded(object sender, RoutedEventArgs args)
         { 
             barom = Barometer.GetDefault();
-
-            //KnownFolders.GetFolderForUserAsync(null /* current user */, KnownFolderId.DocumentsLibrary);
-            string filename = "Altimeter_" + DateTime.Today.Year.ToString() + "_" + DateTime.Today.Month.ToString() + "_" + DateTime.Today.Day.ToString() + ".csv";
-            try
-            {
-
-                App.file = await App.localFolder.CreateFileAsync(filename, CreationCollisionOption.FailIfExists);
-            }
-            catch (Exception e)
-            {
-                try
-                {
-                    App.file = (StorageFile)await App.localFolder.TryGetItemAsync(filename);
-                }
-                catch (Exception x) { }
-            }
-
+        
             if (barom == null)
             {
-//                ErrorMsg.Visibility = Visibility.Visible;
                 await new Windows.UI.Popups.MessageDialog("Barometer is not available").ShowAsync();
-
                 return;
             }
             uint rep = barom.MinimumReportInterval;
@@ -79,6 +62,7 @@ namespace Altimetro
             barom.ReadingChanged += OnReadingChanged;
 
             ((ScatterSeries) LineChart.Series[0]).ItemsSource = App.items;    
+
         }
 
         async void OnReadingChanged(Barometer sender, BarometerReadingChangedEventArgs args)
@@ -100,29 +84,34 @@ namespace Altimetro
                 Altit.Text = altit;
 
             });
-
-
-            ((App)Application.Current).chartCounter++;
-            if ((((App)Application.Current).chartCounter % App.chartDecimation) == 0)
+            if (App.save2File == false)
             {
-                await this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                ((App)Application.Current).chartCounter++;
+                if ((((App)Application.Current).chartCounter % App.chartDecimation) == 0)
                 {
-                    if (App.items.Count > 100)
+                    await this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
                     {
-                        App.items.RemoveAt(0);
-                    }
-                    App.items.Add(new ScatterValueItem() { Name = ((App)Application.Current).chartCounter, Value = alt });
+                        if (App.items.Count > 100)
+                        {
+                            App.items.RemoveAt(0);
+                        }
+                        App.items.Add(new ScatterValueItem() { Name = ((App)Application.Current).chartCounter, Value = alt });
 
-                });
-                if (App.file != null && App.save2File)
+                    });
+
+                }
+            }
+            else if  (App.file != null )
+            {
+                string userContent = DateTime.Now.TimeOfDay.TotalSeconds.ToString("F1", CultureInfo.InvariantCulture) + ";" + curPressString + ";" + altit + "\n";
+                App.fileBuffer.Append(userContent);
+                if (App.fileBuffer.Length > 10000)
                 {
-                    string userContent = DateTime.Now.TimeOfDay.TotalSeconds.ToString("F1", CultureInfo.InvariantCulture) + ";" + curPressString + ";" + altit + "\n";
-
-                    await FileIO.AppendTextAsync(App.file, userContent);
+                    await FileIO.AppendTextAsync(App.file, App.fileBuffer.ToString());
+                    App.fileBuffer.Clear();
                 }
             }
 
-          
         }
 
         

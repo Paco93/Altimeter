@@ -27,7 +27,7 @@ namespace Altimetro
     {
         static internal StorageFolder localFolder = null;
         static internal StorageFile file = null;
-        static internal bool save2File=false;
+        static internal volatile bool save2File=false;
          
         static internal double CalibPressure;  //Pressure at Calibration Location (initially at sea level 
 
@@ -39,6 +39,8 @@ namespace Altimetro
         static internal int chartDecimation = 5;
         internal uint chartCounter;
 
+//        static internal List<string> fileBuffer;
+        static internal System.Text.StringBuilder fileBuffer;
         /// <summary>
         /// Inizializza l'oggetto Application singleton. Si tratta della prima riga del codice creato
         /// creato e, come tale, corrisponde all'equivalente logico di main() o WinMain().
@@ -56,7 +58,7 @@ namespace Altimetro
             chartCounter = 0;
             CalibPressure = 1013.25; //Standard atmosphere @ sea level;
             localFolder = ApplicationData.Current.LocalFolder;
-         
+            fileBuffer = new System.Text.StringBuilder();
         }
 
         /// <summary>
@@ -64,7 +66,7 @@ namespace Altimetro
         /// verranno usati altri punti di ingresso per aprire un file specifico.
         /// </summary>
         /// <param name="e">Dettagli sulla richiesta e sul processo di avvio.</param>
-        protected override void OnLaunched(LaunchActivatedEventArgs e)
+        protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
@@ -110,6 +112,33 @@ namespace Altimetro
                         Lb = 0.0065;
                     else
                         Lb = Convert.ToDouble(value);
+
+                    value = Convert.ToInt32(localSettings.Values["SamplingTime"]);
+                    if (value == null)
+                        chartDecimation = 5;
+                    else
+                        chartDecimation = Convert.ToInt32(value);
+
+                    value = Convert.ToBoolean(localSettings.Values["Save2File"]);
+                    if (value == null)
+                        save2File = false;
+                    else
+                        save2File = Convert.ToBoolean(value);
+                }
+
+                string filename = "Altimeter_" + DateTime.Today.Year.ToString() + "_" + DateTime.Today.Month.ToString() + "_" + DateTime.Today.Day.ToString() + ".csv";
+                try
+                {
+
+                    App.file = await App.localFolder.CreateFileAsync(filename, CreationCollisionOption.FailIfExists);
+                }
+                catch (Exception exc)
+                {
+                    try
+                    {
+                        App.file = (StorageFile)await App.localFolder.TryGetItemAsync(filename);
+                    }
+                    catch (Exception x) { }
                 }
 
                 // Posizionare il frame nella finestra corrente
@@ -152,7 +181,7 @@ namespace Altimetro
         /// </summary>
         /// <param name="sender">Origine della richiesta di sospensione.</param>
         /// <param name="e">Dettagli relativi alla richiesta di sospensione.</param>
-        private void OnSuspending(object sender, SuspendingEventArgs e)
+        private async void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: salvare lo stato dell'applicazione e arrestare eventuali attività eseguite in background
@@ -165,8 +194,17 @@ namespace Altimetro
             localSettings.Values["CalibrationAltitude"] = calibAlt;
             localSettings.Values["CalibrationLapse"] = Lb;
             localSettings.Values["CalibrationTemperature"] = temp;
+            localSettings.Values["SamplingTime"] = chartDecimation;
+            localSettings.Values["Save2File"] = save2File;
 
+
+            if (fileBuffer.Length > 0)
+            {
+                await FileIO.AppendTextAsync(App.file, App.fileBuffer.ToString());
+                fileBuffer.Clear();
+            }
             deferral.Complete();
         }
+
     }
 }

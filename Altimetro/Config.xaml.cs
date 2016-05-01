@@ -44,6 +44,7 @@ namespace Altimetro
             CalibAlt.Text = App.calibAlt.ToString();
             CalibrationValue.Text = App.CalibPressure.ToString("F3");
             SamplingValue.Text = App.chartDecimation.ToString();
+            Save2File.IsChecked = App.save2File;
         }
 
         private void Temp_LostFocus(object sender, RoutedEventArgs e)
@@ -184,12 +185,19 @@ namespace Altimetro
             SamplingValue.Text = App.chartDecimation.ToString( );
         }
 
-        private void OnSave2File(object sender, RoutedEventArgs e)
+        private async  void OnSave2File(object sender, RoutedEventArgs e)
         {
             if (Save2File.IsChecked == true)
+            {
+                App.fileBuffer.Clear();
                 App.save2File = true;
+            }
             else
+            {
                 App.save2File = false;
+                await Windows.Storage.FileIO.AppendTextAsync(App.file, App.fileBuffer.ToString());
+                App.fileBuffer.Clear();
+            }
         }
     }
 }
