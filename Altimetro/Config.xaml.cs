@@ -184,9 +184,12 @@ namespace Altimetro
             SamplingValue.Text = App.chartDecimation.ToString( );
         }
 
-        private void Temp_LostFocus_1(object sender, RoutedEventArgs e)
+        private void OnSave2File(object sender, RoutedEventArgs e)
         {
-
+            if (Save2File.IsChecked == true)
+                App.save2File = true;
+            else
+                App.save2File = false;
         }
     }
 }

@@ -18,6 +18,7 @@
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
+            <RowDefinition />
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
 
@@ -35,6 +36,10 @@
         
         <TextBlock Text="Sampling (s)"  Grid.Column="0" Grid.Row="4" Margin="12,10,10,10" HorizontalAlignment="Left"  Height="48" VerticalAlignment="Center" FontSize="20"></TextBlock>
         <TextBox x:Name="SamplingValue" Grid.Column="1" Grid.Row="4"  Height="48"  HorizontalAlignment="Right"   Margin="12,10,10,10"  Text="5" VerticalAlignment="Center" FontSize="20" LostFocus="SamplingValue_LostFocus"/>
+
+        <TextBlock Text="Save to File (s)"  Grid.Column="0" Grid.Row="5" Margin="12,10,10,10" HorizontalAlignment="Left"  Height="48" VerticalAlignment="Center" FontSize="20"></TextBlock>
+        <CheckBox x:Name="Save2File" Grid.Column="1" Grid.Row="5"  Height="48"  HorizontalAlignment="Right"   Margin="12,10,10,10"  IsChecked="False"  VerticalAlignment="Center" FontSize="20" Click="OnSave2File"/>
+
     </Grid>
     <Page.BottomAppBar>
         <CommandBar Name="bottomAppBar" >

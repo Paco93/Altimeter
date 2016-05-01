@@ -1,4 +1,4 @@
-﻿<local:SharePage
+﻿<Page
     x:Class="Altimetro.FilePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -9,16 +9,27 @@
    >
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
-        <ListView  SelectionChanged="Files_SelectionChanged" Name="llsFiles" Background="Red" ItemsSource="{Binding Path=FilesList , Mode=OneWay}">
-
-           
-        </ListView>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <ScrollViewer Grid.Row="0">
+            <ListView  SelectionChanged="Files_SelectionChanged" Name="llsFiles" Background="Red" ItemsSource="{Binding Path=FilesList , Mode=OneWay}">   </ListView>
+        </ScrollViewer>
+        <ScrollViewer Grid.Row="1">
+            <TextBlock  Name="FileContent" TextWrapping="Wrap">File Text</TextBlock>
+        </ScrollViewer>
     </Grid>
     <Page.BottomAppBar>
         <CommandBar Name="bottomAppBar" >
-            <AppBarButton  Icon="Back" Label="Go Home"  Width="Auto"  Margin="50,0,120,0"  Click="AppBar_Click" ToolTipService.ToolTip="Go to Main Page"/>
-            <AppBarButton  Icon="Send" Label="Send"  Width="Auto"  Margin="50,0,120,0"  Click="ShowUIButton_Click" ToolTipService.ToolTip="Open with Excel" AutomationProperties.AutomationId="ShareButton"/>
+            <AppBarButton  Icon="Back" Label="Go Home"  Width="Auto"  Margin="0,0,20,0"  Click="AppBar_Click" ToolTipService.ToolTip="Go to Main Page"/>
+            <AppBarButton  Icon="Send" Label="Send"  Width="Auto"  Margin="10,0,20,0"  Click="ShowUIButton_Click" ToolTipService.ToolTip="Share the file" AutomationProperties.AutomationId="ShareButton"/>
+            <AppBarButton  Icon="Save" Label="Save"  Width="Auto"  Margin="10,0,20,0"  Click="SaveButton_Click" ToolTipService.ToolTip="Save file" />
+
+            <AppBarButton  Icon="View" Label="View"  Width="Auto"  Margin="10,0,20,0"  Click="ViewButton_Click" />
+            <AppBarButton  Icon="Delete" Label="Delete"  Width="Auto"  Margin="10,0,20,0"  Click="DeleteButton_Click" />
+            
+
         </CommandBar>
     </Page.BottomAppBar>
-</local:SharePage>
+</Page>

@@ -15,6 +15,8 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using WinRTXamlToolkit.Controls.DataVisualization.Charting;
+using Windows.Storage;
+
 
 namespace Altimetro
 {
@@ -23,7 +25,10 @@ namespace Altimetro
     /// </summary>
     sealed partial class App : Application
     {
-
+        static internal StorageFolder localFolder = null;
+        static internal StorageFile file = null;
+        static internal bool save2File=false;
+         
         static internal double CalibPressure;  //Pressure at Calibration Location (initially at sea level 
 
         static internal double temp;  //temperature at the calibration point 
@@ -50,6 +55,8 @@ namespace Altimetro
    //         items.Add(new ScatterValueItem() { Name = 0, Value = 0 });
             chartCounter = 0;
             CalibPressure = 1013.25; //Standard atmosphere @ sea level;
+            localFolder = ApplicationData.Current.LocalFolder;
+         
         }
 
         /// <summary>

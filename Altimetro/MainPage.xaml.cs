@@ -19,6 +19,7 @@ using Windows.Devices.Sensors;
 
 using WinRTXamlToolkit.Controls.DataVisualization.Charting;
 using Windows.Storage;
+using System.Globalization;
 
 namespace Altimetro
 {
@@ -29,8 +30,7 @@ namespace Altimetro
     public sealed partial class MainPage : Page
     {
         Barometer barom;
-        StorageFolder localFolder = null;
-        StorageFile file = null;
+ 
         public static MainPage Current;
         public MainPage()
         {
@@ -44,21 +44,21 @@ namespace Altimetro
         async void OnMainPageLoaded(object sender, RoutedEventArgs args)
         { 
             barom = Barometer.GetDefault();
-            localFolder = ApplicationData.Current.LocalFolder; 
-              //KnownFolders.GetFolderForUserAsync(null /* current user */, KnownFolderId.DocumentsLibrary);
-            string filename = "Altimeter_" + DateTime.Today.Year.ToString() +"_"+ DateTime.Today.Month.ToString() +"_"+ DateTime.Today.Day.ToString() +".dat";
+
+            //KnownFolders.GetFolderForUserAsync(null /* current user */, KnownFolderId.DocumentsLibrary);
+            string filename = "Altimeter_" + DateTime.Today.Year.ToString() + "_" + DateTime.Today.Month.ToString() + "_" + DateTime.Today.Day.ToString() + ".csv";
             try
             {
 
-                file = await localFolder.CreateFileAsync(filename, CreationCollisionOption.FailIfExists);
+                App.file = await App.localFolder.CreateFileAsync(filename, CreationCollisionOption.FailIfExists);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 try
                 {
-                    file = (StorageFile)await localFolder.TryGetItemAsync(filename);
+                    App.file = (StorageFile)await App.localFolder.TryGetItemAsync(filename);
                 }
-                catch(Exception x) { }
+                catch (Exception x) { }
             }
 
             if (barom == null)
@@ -91,33 +91,38 @@ namespace Altimetro
 //          double r = Math.Log( rat);
 //          double alt1 = R*  temp/ M * r / g;
             double alt = (Math.Pow(rat, R * App.Lb / (g * M)) - 1) * App.temp / App.Lb + App.calibAlt;
-            string altit = alt.ToString("F1");
-            string curPressString = curPress.ToString("F3");
-            string userContent = DateTime.Today.TimeOfDay.ToString() + "\t" + curPressString + "\t" + altit+ "\n";
-           
-
+            string altit = alt.ToString("F1", CultureInfo.InvariantCulture);
+            string curPressString = curPress.ToString("F3", CultureInfo.InvariantCulture);
+         
             await this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
             {
                 CurrPression.Text = curPressString;
                 Altit.Text = altit;
-                ((App)Application.Current).chartCounter++;
-                if ((((App)Application.Current).chartCounter % App.chartDecimation ) == 0)
+
+            });
+
+
+            ((App)Application.Current).chartCounter++;
+            if ((((App)Application.Current).chartCounter % App.chartDecimation) == 0)
+            {
+                await this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
                 {
                     if (App.items.Count > 100)
                     {
                         App.items.RemoveAt(0);
                     }
                     App.items.Add(new ScatterValueItem() { Name = ((App)Application.Current).chartCounter, Value = alt });
-                    if (file != null)
-                    {
-                        using (Windows.Storage.Streams.DataWriter dataWriter = new Windows.Storage.Streams.DataWriter())
-                        {
-                                dataWriter.WriteString(userContent);                        
-                        }
-                    }
+
+                });
+                if (App.file != null && App.save2File)
+                {
+                    string userContent = DateTime.Now.TimeOfDay.TotalSeconds.ToString("F1", CultureInfo.InvariantCulture) + ";" + curPressString + ";" + altit + "\n";
+
+                    await FileIO.AppendTextAsync(App.file, userContent);
                 }
-        
-            });
+            }
+
+          
         }
 
         
