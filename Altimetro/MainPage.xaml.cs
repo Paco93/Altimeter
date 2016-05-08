@@ -110,6 +110,18 @@ namespace Altimetro
                     await FileIO.AppendTextAsync(App.file, App.fileBuffer.ToString());
                     App.fileBuffer.Clear();
                 }
+
+                //using (var randomAccessStream = await App.file.OpenAsync(FileAccessMode.ReadWrite))
+                //{
+                //    using (var outputStream = randomAccessStream.GetOutputStreamAt(0))
+                //    {
+                //        using (StreamWriter streamWriter =
+                //           new StreamWriter(outputStream.AsStreamForWrite()))
+                //        {
+                //                await streamWriter.WriteLineAsync(userContent);                
+                //        }
+                //    }
+                //}
             }
 
         }
