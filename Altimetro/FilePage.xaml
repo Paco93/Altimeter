@@ -14,7 +14,7 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <ScrollViewer Grid.Row="0">
-            <ListView  SelectionChanged="Files_SelectionChanged" Name="llsFiles" Background="Red" ItemsSource="{Binding Path=FilesList , Mode=OneWay}">   </ListView>
+            <ListView  SelectionChanged="Files_SelectionChanged" Name="llsFiles"  ItemsSource="{Binding Path=FilesList , Mode=OneWay}">   </ListView>
         </ScrollViewer>
         <ScrollViewer Grid.Row="1">
             <TextBlock  Name="FileContent" TextWrapping="Wrap">File Text</TextBlock>
